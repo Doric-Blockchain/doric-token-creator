@@ -25,6 +25,7 @@ const Table = styled.table`
   padding: 15px;
   background-color: ${({ theme }) => theme.bg2};
   border-radius: 6px;
+  width: 100%;
 
   th {
     text-align: left;
@@ -95,8 +96,8 @@ const HistoryPage = () => {
           <TYPE.largeHeader style={{ padding: '15px' }}>
             {t(`Deployed tokens history`)}
           </TYPE.largeHeader>
-          <div style={{ padding: '15px' }}>
-            <Table width="100%">
+          <div style={{ padding: '15px', width: '100%', overflowX: 'auto' }}>
+            <Table>
               <thead>
                 <tr>
                   <th>{t('Token')}</th>
