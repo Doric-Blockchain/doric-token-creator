@@ -8,6 +8,7 @@ import CopyText from '../CopyText'
 import { ExternalLink } from '../../theme'
 import { getExplorerTXURL } from 'constants/explorer'
 import { parseENSAddress } from 'utils/parseENSAddress'
+import { useNetworkState } from 'store/network/state'
 
 const Content = styled.div`
   width: 100%;
@@ -110,6 +111,7 @@ function TransactionDetails({
   contractAddress,
 }) {
   const { t } = useTranslation()
+  const { selectedNetwork } = useNetworkState()
 
   return (
     <Content>
@@ -137,7 +139,7 @@ function TransactionDetails({
                     </span>
                   </CopyText>
 
-                  <AddressLink href={getExplorerTXURL(hash)}>
+                  <AddressLink href={getExplorerTXURL(hash, selectedNetwork)}>
                     <LinkIcon size={16} />
                     <span style={{ marginLeft: '4px' }}>
                       {t('View on Explorer')}
