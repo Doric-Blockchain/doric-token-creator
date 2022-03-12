@@ -15,6 +15,10 @@ export function getTransactionsExplorer(address) {
   return response
 }
 
+export function getExplorerAddressURL(address, selectedNetwork) {
+  return `${__selectBaseUrl(selectedNetwork)}/address/${address}`
+}
+
 export function getExplorerTXURL(hash, selectedNetwork) {
   return `${__selectBaseUrl(selectedNetwork)}/tx/${hash}`
 }
