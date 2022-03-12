@@ -7,9 +7,12 @@ import { ShadowCard } from 'components/Card'
 import { SimpleGrid } from 'pages/Template/styles'
 import { useNetworkState } from 'store/network/state'
 import { useLocalState } from 'store/local/state'
+import { useApplicationState } from 'store/application/state'
+import { HISTORY_ACTION_CONFIRMATION } from 'store/application/types'
 import { TYPE } from 'theme'
 import { getExplorerAddressURL } from 'constants/explorer'
 import { parseENSAddress } from 'utils/parseENSAddress'
+import { ButtonPrimary, ButtonGray } from 'components/Button'
 
 const CardSection = styled(AutoColumn)`
   grid-template-columns: 1fr;
@@ -53,31 +56,24 @@ const Table = styled.table`
 `
 
 const RemoveButton = styled.a`
+  display: block;
+  width: 20px;
+  height: 20px;
   text-decoration: none;
-  color: ${({ theme }) => theme.blue1};
-  position: relative;
+  text-align: center;
+  line-height: 10px;
+  background-color: ${({ theme }) => theme.red1};
+  color: ${({ theme }) => `${theme.white} !important`};
   font-size: 12px;
-
-  span {
-    opacity: 0;
-    padding: 0px 5px;
-    font-size: 0px;
-    position: absolute;
-    background-color: ${({ theme }) => theme.bg2};
-  }
-
-  &:hover {
-    span {
-      opacity: 1;
-      font-size: 12px;
-    }
-  }
+  padding: 5px;
+  border-radius: 50%;
 `
 
 const HistoryPage = () => {
   const { t } = useTranslation()
   const { selectedNetwork } = useNetworkState()
   const { deployedTokens, removeContractHistory } = useLocalState()
+  const { openPopup, closePopup } = useApplicationState()
 
   const filteredTokens = deployedTokens(selectedNetwork)
 
@@ -87,6 +83,31 @@ const HistoryPage = () => {
 
   function handleDownloadByteCode(symbol, bytecode) {
     fileDownload(bytecode, `${symbol}-bytecode.txt`)
+  }
+
+  function handleRemoveConfirmation(address) {
+    openPopup(HISTORY_ACTION_CONFIRMATION, () => {
+      return (
+        <center style={{ paddingTop: '15px' }}>
+          <TYPE.largeHeader>
+            {t('Are you sure you want to remove this contract from history?')}
+          </TYPE.largeHeader>
+          <div style={{ display: 'flex', padding: '15px', gap: '15px' }}>
+            <ButtonGray onClick={() => closePopup(HISTORY_ACTION_CONFIRMATION)}>
+              {t('Cancel')}
+            </ButtonGray>
+            <ButtonPrimary
+              onClick={() => {
+                removeContractHistory(address)
+                closePopup(HISTORY_ACTION_CONFIRMATION)
+              }}
+            >
+              {t('Remove')}
+            </ButtonPrimary>
+          </div>
+        </center>
+      )
+    })
   }
 
   return (
@@ -133,7 +154,7 @@ const HistoryPage = () => {
                         <td>
                           <a
                             target="_blank"
-                            rel="noreferrer"
+                            rel="noopener noreferrer"
                             href={getExplorerAddressURL(
                               address,
                               selectedNetwork,
@@ -158,21 +179,26 @@ const HistoryPage = () => {
                             }}
                           >
                             <div>
-                              <a onClick={() => handleDownloadAbi(symbol, abi)}>
+                              <a
+                                onClick={() => handleDownloadAbi(symbol, abi)}
+                                href="#download-abi"
+                              >
                                 ABI
                               </a>
                               <a
                                 onClick={() =>
                                   handleDownloadByteCode(symbol, bytecode)
                                 }
+                                href="#download-bytecode"
                               >
                                 ByteCode
                               </a>
                             </div>
                             <RemoveButton
-                              onClick={() => removeContractHistory(address)}
+                              onClick={() => handleRemoveConfirmation(address)}
+                              title={t('Remove from history')}
                             >
-                              X<span>Remove</span>
+                              X
                             </RemoveButton>
                           </div>
                         </td>
