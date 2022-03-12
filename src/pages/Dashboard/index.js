@@ -93,6 +93,8 @@ const Dashboard = ({ theme }) => {
     },
   }
 
+  const isInvalid = contractForm.name === '' || contractForm.symbol === ''
+
   return (
     <Card>
       <Box mb="3">
@@ -197,7 +199,8 @@ const Dashboard = ({ theme }) => {
         <ButtonPrimary
           padding="2"
           data-cy="createTokenBtn"
-          onClick={handleDeployToken}
+          onClick={isInvalid ? () => {} : handleDeployToken}
+          disabled={isInvalid}
         >
           <TYPE.white ml="10px">
             {t(`Deploy token to ${selectedNetwork}`)}
