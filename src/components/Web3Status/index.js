@@ -25,4 +25,8 @@ export const Web3StatusConnected = styled(Web3StatusGeneric)`
     background-color: ${({ theme }) => lighten(0.05, theme.bg1)};
     border: 1px solid ${({ theme }) => darken(0.1, theme.primary1)};
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    font-size: 11px;
+  `};
 `

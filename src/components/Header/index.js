@@ -65,6 +65,9 @@ const HeaderControls = styled.div`
   flex-direction: row;
   align-items: center;
   justify-self: flex-end;
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    padding-top: 20px;
+  `};
 `
 
 const HeaderElement = styled.div`
@@ -81,7 +84,8 @@ const HeaderElement = styled.div`
   `};
 
   ${({ theme }) => theme.mediaWidth.upToSmall`
-    display: none;
+    font-size: 11px;
+  
   `};
 `
 
@@ -91,8 +95,26 @@ const HeaderElementWrap = styled.div`
 `
 
 const HeaderRow = styled(RowFixed)`
+  position: relative;
+
+  .mobile {
+    display: none;
+  }
+
   ${({ theme }) => theme.mediaWidth.upToMedium`
     width: 100%;
+
+    .larger {
+      display: none !important;
+    }
+
+    .mobile {
+      display: block;
+    }
+  `};
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    top: -25px;
   `};
 `
 
@@ -107,10 +129,6 @@ const HeaderLinks = styled(Row)`
   grid-gap: 10px;
   overflow: auto;
   align-items: center;
-
-  ${({ theme }) => theme.mediaWidth.upToLarge`
-    justify-self: start;  
-  `};
 
   ${({ theme }) => theme.mediaWidth.upToMedium`
     justify-self: center;
@@ -239,11 +257,19 @@ function Header() {
 
   const scrollY = useScrollPosition()
 
+  const parseBalance = value => {
+    if (value === 0) return '0.0'
+
+    const [int, decimals] = value.split('.')
+    return `${int}.${decimals.slice(0, 6)}`
+  }
+
   return (
     <HeaderFrame showBackground={scrollY > 45}>
       <HeaderRow>
         <Title href=".">
-          <DoricLogo />
+          <DoricLogo width="80px" className="mobile" />
+          <DoricLogo width="125px" className="larger" />
         </Title>
       </HeaderRow>
       {isLogged && (
@@ -273,6 +299,7 @@ function Header() {
           </BuyDoricElement>
           {isLogged && (
             <AccountElement
+              className="account"
               active
               style={{ pointerEvents: 'auto' }}
               onClick={() =>
@@ -289,7 +316,7 @@ function Header() {
                 pr="0.5rem"
                 fontWeight={500}
               >
-                {balance} DRC
+                {parseBalance(balance)} DRC
               </BalanceText>
               <Web3StatusConnected id="web3-status-connected">
                 <Text>{parseENSAddress(address)}</Text>

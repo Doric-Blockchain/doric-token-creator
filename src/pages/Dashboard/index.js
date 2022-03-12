@@ -5,6 +5,7 @@ import { TYPE } from 'theme'
 import { Box } from 'rebass/styled-components'
 import { withTheme } from 'styled-components'
 import { Switch } from 'theme-ui'
+import styled from 'styled-components'
 
 import { AutoRow, RowBetween } from 'components/Row'
 import Card from 'components/Card'
@@ -27,14 +28,24 @@ import { parseENSAddress } from 'utils/parseENSAddress'
 
 const provider = getProvider()
 
-const flexContainer = {
-  display: 'flex',
-  justifyContent: 'space-between',
-  width: '100%',
-  gap: '15px',
-}
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  gap: 15px;
 
-const flexItem = { flex: '1 1 auto' }
+  .item {
+    flex: 1 1 auto;
+  }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    flex-flow: row wrap;
+
+    .item {
+      width: 100%;
+    }
+  `};
+`
 
 const Dashboard = ({ theme }) => {
   const [contractForm, setContractForm] = useState({
@@ -182,8 +193,8 @@ const Dashboard = ({ theme }) => {
         </AutoRow>
       </Box>
 
-      <div style={flexContainer}>
-        <div style={flexItem}>
+      <FlexContainer>
+        <div className="item">
           <FormInputRow>
             <TYPE.label>Token Name</TYPE.label>
             <SimpleInput
@@ -196,7 +207,7 @@ const Dashboard = ({ theme }) => {
             <TYPE.italic>A name for your token.</TYPE.italic>
           </FormInputRow>
         </div>
-        <div style={flexItem}>
+        <div className="item">
           <FormInputRow>
             <TYPE.label>Token Symbol</TYPE.label>
             <SimpleInput
@@ -209,10 +220,10 @@ const Dashboard = ({ theme }) => {
             <TYPE.italic>Symbol for your token, alphanumeric only.</TYPE.italic>
           </FormInputRow>
         </div>
-      </div>
+      </FlexContainer>
       <div>
-        <div style={flexContainer}>
-          <div style={flexItem}>
+        <FlexContainer>
+          <div className="item">
             <FormInputRow>
               <TYPE.label>Initial Supply</TYPE.label>
               <SimpleInput
@@ -228,11 +239,11 @@ const Dashboard = ({ theme }) => {
               </TYPE.italic>
             </FormInputRow>
           </div>
-        </div>
+        </FlexContainer>
       </div>
       <div>
-        <div style={flexContainer}>
-          <div style={flexItem}>
+        <FlexContainer>
+          <div className="item">
             <FormInputRow>
               <TYPE.label>Basic DRC-20 features</TYPE.label>
               <Switch checked onChange={() => {}} sx={switchStyles} />
@@ -262,7 +273,7 @@ const Dashboard = ({ theme }) => {
               />
             </FormInputRow>
           </div>
-        </div>
+        </FlexContainer>
       </div>
       <RowBetween>
         <ButtonPrimary

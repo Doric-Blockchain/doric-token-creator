@@ -3,9 +3,13 @@ import { useLocalState } from 'store/local/state'
 import DoricLogoBlack from './DoricLogoBlack'
 import DoricLogoWhite from './DoricLogoWhite'
 
-const DoricLogo = () => {
+const DoricLogo = props => {
   const { isDarkMode } = useLocalState()
-  return isDarkMode ? <DoricLogoWhite /> : <DoricLogoBlack />
+  return isDarkMode ? (
+    <DoricLogoWhite {...props} />
+  ) : (
+    <DoricLogoBlack {...props} />
+  )
 }
 
 export const DoricLogoIcon = props => {
@@ -21,7 +25,13 @@ export const DoricLogoIcon = props => {
       xlink="http://www.w3.org/1999/xlink"
       {...props}
     >
-      <g id="Symbols" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+      <g
+        id="Symbols"
+        stroke="none"
+        strokeWidth="1"
+        fill="none"
+        fillRule="evenodd"
+      >
         <g
           id="doric-avatar"
           transform="translate(-3.000000, -2.000000)"
