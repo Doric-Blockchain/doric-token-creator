@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { useTranslation } from 'react-i18next'
-import { withRouter } from 'react-router-dom'
 import { ethers, ContractFactory } from 'ethers'
 import { TYPE } from 'theme'
 import { Box } from 'rebass/styled-components'
+import { withTheme } from 'styled-components'
 
 import { AutoRow, RowBetween } from 'components/Row'
 import Card from 'components/Card'
@@ -12,6 +12,12 @@ import { useNetworkState } from 'store/network/state'
 import { SimpleInput, FormInputRow } from 'components/Forms/inputs'
 import { provider } from 'constants/provider'
 import StandardERC20 from '../../truffle/build/contracts/StandardERC20.json'
+import PausableERC20 from '../../truffle/build/contracts/PausableERC20.json'
+import BurnableERC20 from '../../truffle/build/contracts/BurnableERC20.json'
+import BurnablePausableERC20 from '../../truffle/build/contracts/BurnablePausableERC20.json'
+import MintableERC20 from '../../truffle/build/contracts/MintableERC20.json'
+import MintablePausableERC20 from '../../truffle/build/contracts/MintablePausableERC20.json'
+import { Switch } from 'theme-ui'
 
 const flexContainer = {
   display: 'flex',
@@ -22,11 +28,14 @@ const flexContainer = {
 
 const flexItem = { flex: '1 1 auto' }
 
-const Dashboard = () => {
+const Dashboard = ({ theme }) => {
   const [contractForm, setContractForm] = useState({
     name: '',
     symbol: '',
     totalSupply: 100000000,
+    mintable: false,
+    burnable: false,
+    pausable: false,
   })
   const { t } = useTranslation()
   const { selectedNetwork } = useNetworkState()
@@ -40,18 +49,26 @@ const Dashboard = () => {
     })
   }
 
+  const switchContractFactory = ({ mintable, burnable, pausable }) => {
+    if (burnable && pausable) return BurnablePausableERC20
+    if (burnable) return BurnableERC20
+    if (mintable && pausable) return MintablePausableERC20
+    if (mintable) return MintableERC20
+    if (pausable) return PausableERC20
+    return StandardERC20
+  }
+
   const handleDeployToken = async () => {
     const signer = provider.getSigner()
     const address = await signer.getAddress()
     if (address) {
-      console.log({ StandardERC20 })
+      const contractData = switchContractFactory(contractForm)
+      console.log({ contractData })
       const factory = new ContractFactory(
-        StandardERC20.abi,
-        StandardERC20.bytecode,
+        contractData.abi,
+        contractData.bytecode,
         signer,
       )
-      console.log({ contractForm })
-      console.log({ factory })
 
       const finalSupply = ethers.utils.parseEther(
         Number(contractForm.totalSupply).toString(),
@@ -67,6 +84,13 @@ const Dashboard = () => {
       console.log(contract.deployTransaction.hash)
       await contract.deployed()
     }
+  }
+
+  const mintOrBurnSupport = contractForm.mintable || contractForm.burnable
+  const switchStyles = {
+    'input:checked ~ &': {
+      backgroundColor: theme.primary1,
+    },
   }
 
   return (
@@ -135,6 +159,40 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <div>
+        <div style={flexContainer}>
+          <div style={flexItem}>
+            <FormInputRow>
+              <TYPE.label>Basic DRC-20 features</TYPE.label>
+              <Switch checked sx={switchStyles} />
+            </FormInputRow>
+            <FormInputRow>
+              <TYPE.label>Unlimited mint support</TYPE.label>
+              <Switch
+                checked={mintOrBurnSupport}
+                onChange={e => setFormField('mintable', e.target.checked)}
+                sx={switchStyles}
+              />
+            </FormInputRow>
+            <FormInputRow>
+              <TYPE.label>Burn token support</TYPE.label>
+              <Switch
+                checked={contractForm.burnable}
+                onChange={e => setFormField('burnable', e.target.checked)}
+                sx={switchStyles}
+              />
+            </FormInputRow>
+            <FormInputRow>
+              <TYPE.label>Pausable support</TYPE.label>
+              <Switch
+                checked={contractForm.pausable}
+                onChange={e => setFormField('pausable', e.target.checked)}
+                sx={switchStyles}
+              />
+            </FormInputRow>
+          </div>
+        </div>
+      </div>
       <RowBetween>
         <ButtonPrimary
           padding="2"
@@ -150,4 +208,4 @@ const Dashboard = () => {
   )
 }
 
-export default withRouter(Dashboard)
+export default withTheme(Dashboard)
