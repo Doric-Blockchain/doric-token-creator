@@ -10,10 +10,11 @@ import { routes } from './routes'
 import ProtectedRoute from 'components/ProtectedRoute'
 import { useAccountState } from 'store/account/state'
 import { useApplicationState } from 'store/application/state'
+import { useNetworkState } from 'store/network/state'
 import { LOADING_DETAILS } from 'store/application/types'
 import {
   getProvider,
-  metamaskParams,
+  getMetaMaskParams,
   CHAIN_ID,
   isDoricNetworkChainId,
 } from 'constants/provider'
@@ -75,6 +76,7 @@ function App() {
     stopLoading,
   } = useAccountState()
   const { openPopup } = useApplicationState()
+  const { selectedNetwork } = useNetworkState()
 
   async function updateBalance() {
     const newBalance = await provider.getBalance(address)
@@ -112,7 +114,11 @@ function App() {
           <h4>No MetaMask detected</h4>
           <p>Please install MetaMask wallet</p>
           <h5>How to install MetaMask on your device?</h5>
-          <a href="https://metamask.io/download.html" target="_blank">
+          <a
+            href="https://metamask.io/download.html"
+            target="_blank"
+            rel="noreferrer"
+          >
             https://metamask.io/download.html
           </a>
         </center>
@@ -138,6 +144,8 @@ function App() {
             ),
           })
         }
+
+        const metamaskParams = getMetaMaskParams(selectedNetwork)
 
         await provider.send('eth_requestAccounts', [])
         await ethereum.request({

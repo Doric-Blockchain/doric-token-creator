@@ -231,7 +231,7 @@ export const StyledMenuButton = styled(ExternalLink).attrs({
   }
 `
 
-function Header({ authentication, client }) {
+function Header() {
   const { isDarkMode, toggleDarkMode } = useLocalState()
   const { openPopup, closePopup } = useApplicationState()
   const { selectedNetwork, toggleNetwork } = useNetworkState()
@@ -265,13 +265,13 @@ function Header({ authentication, client }) {
         </HeaderLinks>
       )}
       <HeaderControls>
-        {isLogged && (
-          <HeaderElement>
-            <BuyDoricElement>
-              <ButtonOutlined onClick={toggleNetwork}>
-                DRC: {selectedNetwork}
-              </ButtonOutlined>
-            </BuyDoricElement>
+        <HeaderElement>
+          <BuyDoricElement>
+            <ButtonOutlined onClick={toggleNetwork}>
+              DRC: {selectedNetwork}
+            </ButtonOutlined>
+          </BuyDoricElement>
+          {isLogged && (
             <AccountElement
               active
               style={{ pointerEvents: 'auto' }}
@@ -295,8 +295,8 @@ function Header({ authentication, client }) {
                 <Text>{parseENSAddress(address)}</Text>
               </Web3StatusConnected>
             </AccountElement>
-          </HeaderElement>
-        )}
+          )}
+        </HeaderElement>
 
         <HeaderElementWrap>
           <StyledMenuButton onClick={() => toggleDarkMode()}>

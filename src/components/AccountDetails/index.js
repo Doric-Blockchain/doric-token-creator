@@ -7,9 +7,7 @@ import CopyText from '../CopyText'
 import { ButtonSecondary } from '../Button'
 import { ExternalLink, TYPE } from '../../theme'
 import { parseENSAddress } from 'utils/parseENSAddress'
-import { useApplicationState } from 'store/application/state'
-import { ACCOUNT_DETAILS } from 'store/application/types'
-import { History } from 'components'
+import { useAccountState } from 'store/account/state'
 
 const Content = styled.div`
   width: 100%;
@@ -88,22 +86,6 @@ const YourAccount = styled.div`
   }
 `
 
-const LowerSection = styled.div`
-  ${({ theme }) => theme.flexColumnNoWrap}
-  padding: 1.5rem;
-  flex-grow: 1;
-  overflow: auto;
-  background-color: ${({ theme }) => theme.bg2};
-  color: ${({ theme }) => theme.text2} !important;
-  border-radius: 10px;
-  text-align: center;
-
-  h5 {
-    margin: 0;
-    font-weight: 400;
-  }
-`
-
 const AccountControl = styled.div`
   display: flex;
   justify-content: space-between;
@@ -149,9 +131,8 @@ const WalletAction = styled(ButtonSecondary)`
   }
 `
 
-function AccountDetails({ client }) {
-  const { closePopup } = useApplicationState()
-  const { address } = client
+function AccountDetails() {
+  const { address } = useAccountState()
 
   return (
     <Content>
@@ -206,19 +187,6 @@ function AccountDetails({ client }) {
           </YourAccount>
         </AccountSection>
       </UpperSection>
-      <LowerSection>
-        <TYPE.body style={{ paddingBottom: '15px' }}>
-          <Trans>
-            <b>Recent transactions:</b>
-          </Trans>
-        </TYPE.body>
-        <History
-          seeMore
-          simpleLayout
-          limit={5}
-          seeMoreCallback={() => closePopup(ACCOUNT_DETAILS)}
-        />
-      </LowerSection>
     </Content>
   )
 }
