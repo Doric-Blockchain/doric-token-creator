@@ -84,7 +84,9 @@ const HistoryPage = () => {
               <tbody>
                 {deployedTokens?.length < 1 && (
                   <tr>
-                    <td colSpan="5">{t('No tokens deployed yet.')}</td>
+                    <td colSpan="5" align="center">
+                      {t('No tokens deployed yet...')}
+                    </td>
                   </tr>
                 )}
                 {deployedTokens?.map(
