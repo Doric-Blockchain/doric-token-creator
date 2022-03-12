@@ -2,6 +2,7 @@ import { ButtonPrimary } from 'components/Button'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
+import { useAccountState } from 'store/account/state'
 
 const Box = styled.div`
   color: ${({ theme }) => theme.text1};
@@ -14,13 +15,13 @@ const Description = styled.div`
   padding: 15px;
 `
 
-const Error403 = ({ authentication }) => {
-  const { loading } = authentication
+const Error403 = () => {
   const history = useHistory()
+  const { isLoading } = useAccountState()
 
   return (
     <Box>
-      {!loading && (
+      {!isLoading && (
         <>
           <h1>Error 403 - Limited Access</h1>
           <Description>Connect your wallet to have full access.</Description>

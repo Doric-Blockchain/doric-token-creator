@@ -1,7 +1,6 @@
-import { Dashboard, History, Tokens } from 'pages'
+import { Dashboard, History } from 'pages'
 
 export const routes = [
-  { path: '/', component: Dashboard },
+  { path: '/', exact: true, component: Dashboard },
   { path: '/history', component: History, authRequired: true },
-  { path: '/tokens', component: Tokens, authRequired: true },
 ]

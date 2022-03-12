@@ -1,9 +1,10 @@
 import { ethers } from 'ethers'
 
-export const provider = new ethers.providers.Web3Provider(
-  window.ethereum,
-  'any',
-)
+export const getProvider = () => {
+  if (window.ethereum) {
+    return new ethers.providers.Web3Provider(window.ethereum, 'any')
+  }
+}
 
 export const CHAIN_ID = '0x102D' // Hex of 4141
 
@@ -14,3 +15,7 @@ export const metamaskParams = [
     rpcUrls: ['https://testnet.doric.network'],
   },
 ]
+
+export const isDoricNetworkChainId = checkChainId => {
+  return checkChainId?.toUpperCase() === CHAIN_ID.toUpperCase()
+}

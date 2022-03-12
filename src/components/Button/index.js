@@ -31,6 +31,8 @@ const Base = styled(RebassButton)`
   > * {
     user-select: none;
   }
+
+  transition: 0.3s;
 `
 
 export const ButtonPrimary = styled(Base)`

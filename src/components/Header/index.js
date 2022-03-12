@@ -1,6 +1,5 @@
 import React from 'react'
 import useScrollPosition from '@react-hook/window-scroll'
-import PropTypes from 'prop-types'
 import { Text } from 'rebass'
 import { NavLink } from 'react-router-dom'
 import styled from 'styled-components'
@@ -14,6 +13,7 @@ import { Web3StatusConnected } from 'components/Web3Status'
 import { ACCOUNT_DETAILS } from 'store/application/types'
 import { useApplicationState } from 'store/application/state'
 import { useNetworkState } from 'store/network/state'
+import { useAccountState } from 'store/account/state'
 import AccountDetails from 'components/AccountDetails'
 import { parseENSAddress } from 'utils/parseENSAddress'
 import { ButtonOutlined } from 'components/Button'
@@ -235,11 +235,9 @@ function Header({ authentication, client }) {
   const { isDarkMode, toggleDarkMode } = useLocalState()
   const { openPopup, closePopup } = useApplicationState()
   const { selectedNetwork, toggleNetwork } = useNetworkState()
+  const { isLogged, address, balance } = useAccountState()
 
   const scrollY = useScrollPosition()
-
-  const { logged } = authentication || {}
-  const { balance, address } = client || {}
 
   return (
     <HeaderFrame showBackground={scrollY > 45}>
@@ -248,7 +246,7 @@ function Header({ authentication, client }) {
           <DoricLogo />
         </Title>
       </HeaderRow>
-      {logged && (
+      {isLogged && (
         <HeaderLinks isDarkMode={isDarkMode}>
           <StyledNavLink id={`create-nav-link`} to={'/'} exact>
             <HideSmall>Create new token</HideSmall>
@@ -267,7 +265,7 @@ function Header({ authentication, client }) {
         </HeaderLinks>
       )}
       <HeaderControls>
-        {logged && (
+        {isLogged && (
           <HeaderElement>
             <BuyDoricElement>
               <ButtonOutlined onClick={toggleNetwork}>
@@ -308,15 +306,6 @@ function Header({ authentication, client }) {
       </HeaderControls>
     </HeaderFrame>
   )
-}
-
-Header.propTypes = {
-  authentication: PropTypes.object.isRequired,
-  client: PropTypes.object.isRequired,
-}
-
-Header.defaultProps = {
-  logged: false,
 }
 
 export default Header

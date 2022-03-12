@@ -2,7 +2,8 @@ import { createState, useState } from '@hookstate/core'
 import { Persistence } from '@hookstate/persistence'
 
 const localState = createState({
-  themeDarkMode: false
+  themeDarkMode: false,
+  deployedTokens: [],
 })
 
 export function useLocalState() {
@@ -15,6 +16,14 @@ export function useLocalState() {
     },
     toggleDarkMode() {
       state.themeDarkMode.set(isDarkMode => !isDarkMode)
-    }
+    },
+    get deployedTokens() {
+      return state.deployedTokens.get()
+    },
+    addDeployedToken(token) {
+      state.deployedTokens.set(deployedTokens => {
+        return deployedTokens ? [...deployedTokens, token] : [token]
+      })
+    },
   }
 }

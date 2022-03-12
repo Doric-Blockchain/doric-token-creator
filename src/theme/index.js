@@ -65,7 +65,7 @@ export function colors(darkMode) {
     primary5: darkMode ? '#153d6f70' : '#3772FF',
 
     // color text
-    primaryText1: darkMode ? '#438BF0' : '#F8F8F8',
+    primaryText1: darkMode ? '#F1F1F1' : '#F8F8F8',
 
     // secondary colors
     secondary1: darkMode ? '#2172E5' : '3772FF',
@@ -143,6 +143,9 @@ export const TYPE = {
   },
   label(props) {
     return <TextWrapper fontWeight={600} color={'text1'} {...props} />
+  },
+  primaryContrast(props) {
+    return <TextWrapper fontWeight={500} color={'primaryText1'} {...props} />
   },
   black(props) {
     return <TextWrapper fontWeight={500} color={'text1'} {...props} />

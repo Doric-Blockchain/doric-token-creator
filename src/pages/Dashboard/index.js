@@ -13,7 +13,7 @@ import { useNetworkState } from 'store/network/state'
 import { SimpleInput, FormInputRow } from 'components/Forms/inputs'
 import SimpleLoader from 'components/SimpleLoader'
 import TransactionDetails from 'components/Transaction/TransactionDetails'
-import { provider } from 'constants/provider'
+import { getProvider } from 'constants/provider'
 import StandardERC20 from '../../truffle/build/contracts/StandardERC20.json'
 import PausableERC20 from '../../truffle/build/contracts/PausableERC20.json'
 import BurnableERC20 from '../../truffle/build/contracts/BurnableERC20.json'
@@ -21,8 +21,11 @@ import BurnablePausableERC20 from '../../truffle/build/contracts/BurnablePausabl
 import MintableERC20 from '../../truffle/build/contracts/MintableERC20.json'
 import MintablePausableERC20 from '../../truffle/build/contracts/MintablePausableERC20.json'
 import { useApplicationState } from 'store/application/state'
+import { useLocalState } from 'store/local/state'
 import { TRANSACTION_DETAILS } from 'store/application/types'
 import { parseENSAddress } from 'utils/parseENSAddress'
+
+const provider = getProvider()
 
 const flexContainer = {
   display: 'flex',
@@ -45,6 +48,7 @@ const Dashboard = ({ theme }) => {
   const { t } = useTranslation()
   const { selectedNetwork } = useNetworkState()
   const { openPopup } = useApplicationState()
+  const { addDeployedToken } = useLocalState()
 
   function setFormField(field, newValue) {
     setContractForm(current => {
@@ -89,16 +93,41 @@ const Dashboard = ({ theme }) => {
           contractData.bytecode,
           signer,
         )
-
-        const finalSupply = ethers.utils.parseEther(
+        const formattedSupply = ethers.utils.parseEther(
           Number(contractForm.totalSupply).toString(),
         )
+
+        addDeployedToken({
+          address: 'contract.address',
+          hash: 'contract.hash',
+          name: contractForm.name,
+          symbol: contractForm.symbol,
+          totalSupply: formattedSupply.toString(),
+          mintable: contractForm.mintable,
+          burnable: contractForm.burnable,
+          pausable: contractForm.pausable,
+          abi: contractData.abi,
+          bytecode: contractData.bytecode,
+        })
 
         const contract = await factory.deploy(
           contractForm.name,
           contractForm.symbol,
-          finalSupply,
+          formattedSupply,
         )
+
+        addDeployedToken({
+          address: contract.address,
+          hash: contract.hash,
+          name: contractForm.name,
+          symbol: contractForm.symbol,
+          totalSupply: formattedSupply,
+          mintable: contractForm.mintable,
+          burnable: contractForm.burnable,
+          pausable: contractForm.pausable,
+          abi: contractData.abi,
+          bytecode: contractData.bytecode,
+        })
 
         showNotification({
           content: (
@@ -216,7 +245,7 @@ const Dashboard = ({ theme }) => {
           <div style={flexItem}>
             <FormInputRow>
               <TYPE.label>Basic DRC-20 features</TYPE.label>
-              <Switch checked sx={switchStyles} />
+              <Switch checked onChange={() => {}} sx={switchStyles} />
             </FormInputRow>
             <FormInputRow>
               <TYPE.label>Unlimited mint support</TYPE.label>
@@ -252,9 +281,9 @@ const Dashboard = ({ theme }) => {
           onClick={isInvalid ? () => {} : handleDeployToken}
           disabled={isInvalid}
         >
-          <TYPE.white ml="10px">
+          <TYPE.primaryContrast ml="10px">
             {t(`Deploy token to ${selectedNetwork}`)}
-          </TYPE.white>
+          </TYPE.primaryContrast>
         </ButtonPrimary>
       </RowBetween>
     </Card>
