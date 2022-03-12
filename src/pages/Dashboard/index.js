@@ -4,12 +4,15 @@ import { ethers, ContractFactory } from 'ethers'
 import { TYPE } from 'theme'
 import { Box } from 'rebass/styled-components'
 import { withTheme } from 'styled-components'
+import { Switch } from 'theme-ui'
 
 import { AutoRow, RowBetween } from 'components/Row'
 import Card from 'components/Card'
 import { ButtonPrimary } from 'components/Button'
 import { useNetworkState } from 'store/network/state'
 import { SimpleInput, FormInputRow } from 'components/Forms/inputs'
+import SimpleLoader from 'components/SimpleLoader'
+import TransactionDetails from 'components/Transaction/TransactionDetails'
 import { provider } from 'constants/provider'
 import StandardERC20 from '../../truffle/build/contracts/StandardERC20.json'
 import PausableERC20 from '../../truffle/build/contracts/PausableERC20.json'
@@ -17,7 +20,9 @@ import BurnableERC20 from '../../truffle/build/contracts/BurnableERC20.json'
 import BurnablePausableERC20 from '../../truffle/build/contracts/BurnablePausableERC20.json'
 import MintableERC20 from '../../truffle/build/contracts/MintableERC20.json'
 import MintablePausableERC20 from '../../truffle/build/contracts/MintablePausableERC20.json'
-import { Switch } from 'theme-ui'
+import { useApplicationState } from 'store/application/state'
+import { TRANSACTION_DETAILS } from 'store/application/types'
+import { parseENSAddress } from 'utils/parseENSAddress'
 
 const flexContainer = {
   display: 'flex',
@@ -39,6 +44,7 @@ const Dashboard = ({ theme }) => {
   })
   const { t } = useTranslation()
   const { selectedNetwork } = useNetworkState()
+  const { openPopup } = useApplicationState()
 
   function setFormField(field, newValue) {
     setContractForm(current => {
@@ -58,31 +64,75 @@ const Dashboard = ({ theme }) => {
     return StandardERC20
   }
 
+  const showNotification = ({ content }) => {
+    openPopup(TRANSACTION_DETAILS, () => <Box>{content}</Box>)
+  }
+
   const handleDeployToken = async () => {
-    const signer = provider.getSigner()
-    const address = await signer.getAddress()
-    if (address) {
-      const contractData = switchContractFactory(contractForm)
-      console.log({ contractData })
-      const factory = new ContractFactory(
-        contractData.abi,
-        contractData.bytecode,
-        signer,
-      )
+    showNotification({
+      content: (
+        <center>
+          <h3>Waiting MetaMask confirmation</h3>
+          <SimpleLoader />
+        </center>
+      ),
+    })
 
-      const finalSupply = ethers.utils.parseEther(
-        Number(contractForm.totalSupply).toString(),
-      )
+    try {
+      const signer = provider.getSigner()
+      const address = await signer.getAddress()
 
-      const contract = await factory.deploy(
-        contractForm.name,
-        contractForm.symbol,
-        finalSupply,
-      )
-      console.log({ contract })
-      console.log(contract.address)
-      console.log(contract.deployTransaction.hash)
-      await contract.deployed()
+      if (address) {
+        const contractData = switchContractFactory(contractForm)
+        const factory = new ContractFactory(
+          contractData.abi,
+          contractData.bytecode,
+          signer,
+        )
+
+        const finalSupply = ethers.utils.parseEther(
+          Number(contractForm.totalSupply).toString(),
+        )
+
+        const contract = await factory.deploy(
+          contractForm.name,
+          contractForm.symbol,
+          finalSupply,
+        )
+
+        showNotification({
+          content: (
+            <center>
+              <h3>Deploying contract to {selectedNetwork}</h3>
+              <SimpleLoader />
+            </center>
+          ),
+        })
+
+        await contract.deployed()
+
+        showNotification({
+          content: (
+            <TransactionDetails
+              action="Contract deployed"
+              address={address}
+              addressAction={t('fromAddress', {
+                address: parseENSAddress(address),
+              })}
+              hash={contract.deployTransaction.hash}
+            />
+          ),
+        })
+      }
+    } catch (err) {
+      showNotification({
+        content: (
+          <center>
+            <h3>An error occurred</h3>
+            <p>{err?.message}</p>
+          </center>
+        ),
+      })
     }
   }
 
