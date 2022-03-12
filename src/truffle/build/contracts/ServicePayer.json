@@ -1,0 +1,783 @@
+{
+  "contractName": "ServicePayer",
+  "abi": [],
+  "metadata": "{\"compiler\":{\"version\":\"0.8.12+commit.f00d7308\"},\"language\":\"Solidity\",\"output\":{\"abi\":[],\"devdoc\":{\"details\":\"Implementation of the ServicePayer\",\"kind\":\"dev\",\"methods\":{},\"title\":\"ServicePayer\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/service/ServicePayer.sol\":\"ServicePayer\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/service/ServicePayer.sol\":{\"keccak256\":\"0xdd4315bc983c00b8cca85abeeb297674ab6a6a14e1998de2a0adc771a71b8346\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://1ea7c78ec194c30fbdba3a12dc145274e2befd97a7fab7d41504d85e3fd8dc05\",\"dweb:/ipfs/QmT2gpb6DoqjSE8YDUUhdKtYogfBnYFEVrejCLskYg1Wif\"]}},\"version\":1}",
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "immutableReferences": {},
+  "generatedSources": [],
+  "deployedGeneratedSources": [],
+  "sourceMap": "",
+  "deployedSourceMap": "",
+  "source": "// SPDX-License-Identifier: MIT\r\n\r\npragma solidity ^0.8.0 <0.9.0;\r\n\r\ninterface IPayable {\r\n    function pay(string memory serviceName) external payable;\r\n}\r\n\r\n/**\r\n * @title ServicePayer\r\n * @dev Implementation of the ServicePayer\r\n */\r\nabstract contract ServicePayer {\r\n\r\n    constructor (address payable receiver, string memory serviceName) payable {\r\n        IPayable(receiver).pay{value: msg.value}(serviceName);\r\n    }\r\n}\r\n",
+  "sourcePath": "E:\\token-creator\\src\\truffle\\service\\ServicePayer.sol",
+  "ast": {
+    "absolutePath": "project:/service/ServicePayer.sol",
+    "exportedSymbols": {
+      "IPayable": [
+        796
+      ],
+      "ServicePayer": [
+        816
+      ]
+    },
+    "id": 817,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 790,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "35:30:6"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPayable",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 796,
+        "linearizedBaseContracts": [
+          796
+        ],
+        "name": "IPayable",
+        "nameLocation": "79:8:6",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "2b66d72e",
+            "id": 795,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "pay",
+            "nameLocation": "104:3:6",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 793,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 792,
+                  "mutability": "mutable",
+                  "name": "serviceName",
+                  "nameLocation": "122:11:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 795,
+                  "src": "108:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 791,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "108:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "107:27:6"
+            },
+            "returnParameters": {
+              "id": 794,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "151:0:6"
+            },
+            "scope": 796,
+            "src": "95:57:6",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 817,
+        "src": "69:86:6",
+        "usedErrors": []
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "ServicePayer",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 797,
+          "nodeType": "StructuredDocumentation",
+          "src": "159:76:6",
+          "text": " @title ServicePayer\n @dev Implementation of the ServicePayer"
+        },
+        "fullyImplemented": true,
+        "id": 816,
+        "linearizedBaseContracts": [
+          816
+        ],
+        "name": "ServicePayer",
+        "nameLocation": "255:12:6",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 814,
+              "nodeType": "Block",
+              "src": "351:72:6",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 811,
+                        "name": "serviceName",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 801,
+                        "src": "403:11:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_string_memory_ptr",
+                            "typeString": "string memory"
+                          }
+                        ],
+                        "expression": {
+                          "arguments": [
+                            {
+                              "id": 805,
+                              "name": "receiver",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 799,
+                              "src": "371:8:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address_payable",
+                                "typeString": "address payable"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_address_payable",
+                                "typeString": "address payable"
+                              }
+                            ],
+                            "id": 804,
+                            "name": "IPayable",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 796,
+                            "src": "362:8:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_contract$_IPayable_$796_$",
+                              "typeString": "type(contract IPayable)"
+                            }
+                          },
+                          "id": 806,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "362:18:6",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IPayable_$796",
+                            "typeString": "contract IPayable"
+                          }
+                        },
+                        "id": 807,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "pay",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 795,
+                        "src": "362:22:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$returns$__$",
+                          "typeString": "function (string memory) payable external"
+                        }
+                      },
+                      "id": 810,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "names": [
+                        "value"
+                      ],
+                      "nodeType": "FunctionCallOptions",
+                      "options": [
+                        {
+                          "expression": {
+                            "id": 808,
+                            "name": "msg",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 4294967281,
+                            "src": "392:3:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_message",
+                              "typeString": "msg"
+                            }
+                          },
+                          "id": 809,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "value",
+                          "nodeType": "MemberAccess",
+                          "src": "392:9:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "src": "362:40:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$returns$__$value",
+                        "typeString": "function (string memory) payable external"
+                      }
+                    },
+                    "id": 812,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "362:53:6",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 813,
+                  "nodeType": "ExpressionStatement",
+                  "src": "362:53:6"
+                }
+              ]
+            },
+            "id": 815,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 802,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 799,
+                  "mutability": "mutable",
+                  "name": "receiver",
+                  "nameLocation": "306:8:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 815,
+                  "src": "290:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "typeName": {
+                    "id": 798,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "290:15:6",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 801,
+                  "mutability": "mutable",
+                  "name": "serviceName",
+                  "nameLocation": "330:11:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 815,
+                  "src": "316:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 800,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "316:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "289:53:6"
+            },
+            "returnParameters": {
+              "id": 803,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "351:0:6"
+            },
+            "scope": 816,
+            "src": "277:146:6",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 817,
+        "src": "237:189:6",
+        "usedErrors": []
+      }
+    ],
+    "src": "35:393:6"
+  },
+  "legacyAST": {
+    "absolutePath": "project:/service/ServicePayer.sol",
+    "exportedSymbols": {
+      "IPayable": [
+        796
+      ],
+      "ServicePayer": [
+        816
+      ]
+    },
+    "id": 817,
+    "license": "MIT",
+    "nodeType": "SourceUnit",
+    "nodes": [
+      {
+        "id": 790,
+        "literals": [
+          "solidity",
+          "^",
+          "0.8",
+          ".0",
+          "<",
+          "0.9",
+          ".0"
+        ],
+        "nodeType": "PragmaDirective",
+        "src": "35:30:6"
+      },
+      {
+        "abstract": false,
+        "baseContracts": [],
+        "canonicalName": "IPayable",
+        "contractDependencies": [],
+        "contractKind": "interface",
+        "fullyImplemented": false,
+        "id": 796,
+        "linearizedBaseContracts": [
+          796
+        ],
+        "name": "IPayable",
+        "nameLocation": "79:8:6",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "functionSelector": "2b66d72e",
+            "id": 795,
+            "implemented": false,
+            "kind": "function",
+            "modifiers": [],
+            "name": "pay",
+            "nameLocation": "104:3:6",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 793,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 792,
+                  "mutability": "mutable",
+                  "name": "serviceName",
+                  "nameLocation": "122:11:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 795,
+                  "src": "108:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 791,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "108:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "107:27:6"
+            },
+            "returnParameters": {
+              "id": 794,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "151:0:6"
+            },
+            "scope": 796,
+            "src": "95:57:6",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "external"
+          }
+        ],
+        "scope": 817,
+        "src": "69:86:6",
+        "usedErrors": []
+      },
+      {
+        "abstract": true,
+        "baseContracts": [],
+        "canonicalName": "ServicePayer",
+        "contractDependencies": [],
+        "contractKind": "contract",
+        "documentation": {
+          "id": 797,
+          "nodeType": "StructuredDocumentation",
+          "src": "159:76:6",
+          "text": " @title ServicePayer\n @dev Implementation of the ServicePayer"
+        },
+        "fullyImplemented": true,
+        "id": 816,
+        "linearizedBaseContracts": [
+          816
+        ],
+        "name": "ServicePayer",
+        "nameLocation": "255:12:6",
+        "nodeType": "ContractDefinition",
+        "nodes": [
+          {
+            "body": {
+              "id": 814,
+              "nodeType": "Block",
+              "src": "351:72:6",
+              "statements": [
+                {
+                  "expression": {
+                    "arguments": [
+                      {
+                        "id": 811,
+                        "name": "serviceName",
+                        "nodeType": "Identifier",
+                        "overloadedDeclarations": [],
+                        "referencedDeclaration": 801,
+                        "src": "403:11:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      }
+                    ],
+                    "expression": {
+                      "argumentTypes": [
+                        {
+                          "typeIdentifier": "t_string_memory_ptr",
+                          "typeString": "string memory"
+                        }
+                      ],
+                      "expression": {
+                        "argumentTypes": [
+                          {
+                            "typeIdentifier": "t_string_memory_ptr",
+                            "typeString": "string memory"
+                          }
+                        ],
+                        "expression": {
+                          "arguments": [
+                            {
+                              "id": 805,
+                              "name": "receiver",
+                              "nodeType": "Identifier",
+                              "overloadedDeclarations": [],
+                              "referencedDeclaration": 799,
+                              "src": "371:8:6",
+                              "typeDescriptions": {
+                                "typeIdentifier": "t_address_payable",
+                                "typeString": "address payable"
+                              }
+                            }
+                          ],
+                          "expression": {
+                            "argumentTypes": [
+                              {
+                                "typeIdentifier": "t_address_payable",
+                                "typeString": "address payable"
+                              }
+                            ],
+                            "id": 804,
+                            "name": "IPayable",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 796,
+                            "src": "362:8:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_type$_t_contract$_IPayable_$796_$",
+                              "typeString": "type(contract IPayable)"
+                            }
+                          },
+                          "id": 806,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "kind": "typeConversion",
+                          "lValueRequested": false,
+                          "names": [],
+                          "nodeType": "FunctionCall",
+                          "src": "362:18:6",
+                          "tryCall": false,
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_contract$_IPayable_$796",
+                            "typeString": "contract IPayable"
+                          }
+                        },
+                        "id": 807,
+                        "isConstant": false,
+                        "isLValue": false,
+                        "isPure": false,
+                        "lValueRequested": false,
+                        "memberName": "pay",
+                        "nodeType": "MemberAccess",
+                        "referencedDeclaration": 795,
+                        "src": "362:22:6",
+                        "typeDescriptions": {
+                          "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$returns$__$",
+                          "typeString": "function (string memory) payable external"
+                        }
+                      },
+                      "id": 810,
+                      "isConstant": false,
+                      "isLValue": false,
+                      "isPure": false,
+                      "lValueRequested": false,
+                      "names": [
+                        "value"
+                      ],
+                      "nodeType": "FunctionCallOptions",
+                      "options": [
+                        {
+                          "expression": {
+                            "id": 808,
+                            "name": "msg",
+                            "nodeType": "Identifier",
+                            "overloadedDeclarations": [],
+                            "referencedDeclaration": 4294967281,
+                            "src": "392:3:6",
+                            "typeDescriptions": {
+                              "typeIdentifier": "t_magic_message",
+                              "typeString": "msg"
+                            }
+                          },
+                          "id": 809,
+                          "isConstant": false,
+                          "isLValue": false,
+                          "isPure": false,
+                          "lValueRequested": false,
+                          "memberName": "value",
+                          "nodeType": "MemberAccess",
+                          "src": "392:9:6",
+                          "typeDescriptions": {
+                            "typeIdentifier": "t_uint256",
+                            "typeString": "uint256"
+                          }
+                        }
+                      ],
+                      "src": "362:40:6",
+                      "typeDescriptions": {
+                        "typeIdentifier": "t_function_external_payable$_t_string_memory_ptr_$returns$__$value",
+                        "typeString": "function (string memory) payable external"
+                      }
+                    },
+                    "id": 812,
+                    "isConstant": false,
+                    "isLValue": false,
+                    "isPure": false,
+                    "kind": "functionCall",
+                    "lValueRequested": false,
+                    "names": [],
+                    "nodeType": "FunctionCall",
+                    "src": "362:53:6",
+                    "tryCall": false,
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_tuple$__$",
+                      "typeString": "tuple()"
+                    }
+                  },
+                  "id": 813,
+                  "nodeType": "ExpressionStatement",
+                  "src": "362:53:6"
+                }
+              ]
+            },
+            "id": 815,
+            "implemented": true,
+            "kind": "constructor",
+            "modifiers": [],
+            "name": "",
+            "nameLocation": "-1:-1:-1",
+            "nodeType": "FunctionDefinition",
+            "parameters": {
+              "id": 802,
+              "nodeType": "ParameterList",
+              "parameters": [
+                {
+                  "constant": false,
+                  "id": 799,
+                  "mutability": "mutable",
+                  "name": "receiver",
+                  "nameLocation": "306:8:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 815,
+                  "src": "290:24:6",
+                  "stateVariable": false,
+                  "storageLocation": "default",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_address_payable",
+                    "typeString": "address payable"
+                  },
+                  "typeName": {
+                    "id": 798,
+                    "name": "address",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "290:15:6",
+                    "stateMutability": "payable",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_address_payable",
+                      "typeString": "address payable"
+                    }
+                  },
+                  "visibility": "internal"
+                },
+                {
+                  "constant": false,
+                  "id": 801,
+                  "mutability": "mutable",
+                  "name": "serviceName",
+                  "nameLocation": "330:11:6",
+                  "nodeType": "VariableDeclaration",
+                  "scope": 815,
+                  "src": "316:25:6",
+                  "stateVariable": false,
+                  "storageLocation": "memory",
+                  "typeDescriptions": {
+                    "typeIdentifier": "t_string_memory_ptr",
+                    "typeString": "string"
+                  },
+                  "typeName": {
+                    "id": 800,
+                    "name": "string",
+                    "nodeType": "ElementaryTypeName",
+                    "src": "316:6:6",
+                    "typeDescriptions": {
+                      "typeIdentifier": "t_string_storage_ptr",
+                      "typeString": "string"
+                    }
+                  },
+                  "visibility": "internal"
+                }
+              ],
+              "src": "289:53:6"
+            },
+            "returnParameters": {
+              "id": 803,
+              "nodeType": "ParameterList",
+              "parameters": [],
+              "src": "351:0:6"
+            },
+            "scope": 816,
+            "src": "277:146:6",
+            "stateMutability": "payable",
+            "virtual": false,
+            "visibility": "internal"
+          }
+        ],
+        "scope": 817,
+        "src": "237:189:6",
+        "usedErrors": []
+      }
+    ],
+    "src": "35:393:6"
+  },
+  "compiler": {
+    "name": "solc",
+    "version": "0.8.12+commit.f00d7308.Emscripten.clang"
+  },
+  "networks": {},
+  "schemaVersion": "3.4.6",
+  "updatedAt": "2022-03-11T20:29:52.893Z",
+  "devdoc": {
+    "details": "Implementation of the ServicePayer",
+    "kind": "dev",
+    "methods": {},
+    "title": "ServicePayer",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  }
+}
