@@ -4,10 +4,11 @@ import { Trans } from 'react-i18next'
 import { ExternalLink as LinkIcon } from 'react-feather'
 
 import CopyText from '../CopyText'
-import { ButtonSecondary } from '../Button'
 import { ExternalLink, TYPE } from '../../theme'
 import { parseENSAddress } from 'utils/parseENSAddress'
 import { useAccountState } from 'store/account/state'
+import { useNetworkState } from 'store/network/state'
+import { getExplorerBaseUrl } from 'constants/explorer'
 
 const Content = styled.div`
   width: 100%;
@@ -91,6 +92,7 @@ const AccountControl = styled.div`
   justify-content: space-between;
   min-width: 0;
   width: 100%;
+  flex-flow: row wrap;
 
   font-weight: 500;
   font-size: 1.25rem;
@@ -106,6 +108,12 @@ const AccountControl = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  ${({ theme }) => theme.mediaWidth.upToSmall`
+    flex-direction: column !important;
+    white-space: nowrap;
+    gap: 15px;
+  `};
 `
 
 const AddressLink = styled(ExternalLink)`
@@ -113,26 +121,15 @@ const AddressLink = styled(ExternalLink)`
   color: ${({ theme }) => theme.text3};
   margin-left: 1rem;
   font-size: 0.825rem;
-  display: flex;
+  display: block;
   :hover {
     color: ${({ theme }) => theme.text2};
   }
 `
 
-const WalletAction = styled(ButtonSecondary)`
-  width: fit-content;
-  font-weight: 400;
-  margin-left: 8px;
-  font-size: 0.825rem;
-  padding: 4px 6px;
-  :hover {
-    cursor: pointer;
-    text-decoration: underline;
-  }
-`
-
 function AccountDetails() {
   const { address } = useAccountState()
+  const { selectedNetwork } = useNetworkState()
 
   return (
     <Content>
@@ -145,41 +142,25 @@ function AccountDetails() {
         <AccountSection>
           <YourAccount>
             <InfoCard>
-              <AccountGroupingRow>
-                Connected to Doric Wallet
-                <div>
-                  <WalletAction
-                    style={{
-                      fontSize: '.825rem',
-                      fontWeight: 400,
-                      marginRight: '8px',
-                    }}
-                    onClick={() => {}}
-                  >
-                    <Trans>Disconnect</Trans>
-                  </WalletAction>
-                </div>
-              </AccountGroupingRow>
+              <AccountGroupingRow>Connected to MetaMask</AccountGroupingRow>
               <AccountGroupingRow id="web3-account-identifier-row">
                 <AccountControl>{parseENSAddress(address)}</AccountControl>
               </AccountGroupingRow>
               <AccountGroupingRow>
                 <>
                   <AccountControl>
-                    <div>
-                      <CopyText toCopy={address}>
-                        <span style={{ marginLeft: '4px' }}>
-                          <Trans>Copy Address</Trans>
-                        </span>
-                      </CopyText>
+                    <CopyText toCopy={address}>
+                      <span style={{ marginLeft: '4px' }}>
+                        <Trans>Copy Address</Trans>
+                      </span>
+                    </CopyText>
 
-                      <AddressLink href="https://explorer.doric.network/">
-                        <LinkIcon size={16} />
-                        <span style={{ marginLeft: '4px' }}>
-                          <Trans>View on Explorer</Trans>
-                        </span>
-                      </AddressLink>
-                    </div>
+                    <AddressLink href={getExplorerBaseUrl(selectedNetwork)}>
+                      <LinkIcon size={16} />
+                      <span style={{ marginLeft: '4px' }}>
+                        <Trans>View on Explorer</Trans>
+                      </span>
+                    </AddressLink>
                   </AccountControl>
                 </>
               </AccountGroupingRow>
