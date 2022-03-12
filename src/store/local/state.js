@@ -17,12 +17,19 @@ export function useLocalState() {
     toggleDarkMode() {
       state.themeDarkMode.set(isDarkMode => !isDarkMode)
     },
-    get deployedTokens() {
-      return state.deployedTokens.get()
+    deployedTokens(selectedNetwork) {
+      return state.deployedTokens
+        .get()
+        .filter(({ network }) => network === selectedNetwork)
     },
     addDeployedToken(token) {
       state.deployedTokens.set(deployedTokens => {
         return deployedTokens ? [...deployedTokens, token] : [token]
+      })
+    },
+    removeContractHistory(address) {
+      state.deployedTokens.set(deployedTokens => {
+        return deployedTokens.filter(token => token.address !== address)
       })
     },
   }
