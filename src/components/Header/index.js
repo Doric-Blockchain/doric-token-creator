@@ -19,6 +19,7 @@ import { parseENSAddress } from 'utils/parseENSAddress'
 import { ButtonOutlined } from 'components/Button'
 import { Clock, Grid } from 'react-feather'
 import { HideSmall, SmallOnly } from '../../theme'
+import { parseBalance } from 'utils/balance'
 
 const HeaderFrame = styled.div`
   display: grid;
@@ -256,13 +257,6 @@ function Header() {
   const { isLogged, address, balance } = useAccountState()
 
   const scrollY = useScrollPosition()
-
-  const parseBalance = value => {
-    if (value === 0) return '0.0'
-
-    const [int, decimals] = value.split('.')
-    return `${int}.${decimals.slice(0, 6)}`
-  }
 
   return (
     <HeaderFrame showBackground={scrollY > 45}>

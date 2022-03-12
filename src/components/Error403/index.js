@@ -3,6 +3,7 @@ import React from 'react'
 import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { useAccountState } from 'store/account/state'
+import { TYPE } from 'theme'
 
 const Box = styled.div`
   color: ${({ theme }) => theme.text1};
@@ -23,7 +24,7 @@ const Error403 = () => {
     <Box>
       {!isLoading && (
         <>
-          <h1>Error 403 - Limited Access</h1>
+          <TYPE.mediumHeader>Error 403 - Limited Access</TYPE.mediumHeader>
           <Description>Connect your wallet to have full access.</Description>
           <ButtonPrimary onClick={() => history.push('/welcome')}>
             Go back to home

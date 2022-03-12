@@ -74,7 +74,7 @@ export function colors(darkMode) {
 
     // other
     red1: darkMode ? '#FF4343' : '#DA2D2B',
-    red2: darkMode ? '#F82D3A' : '#DF1F38',
+    red2: darkMode ? '#ff5c5c' : '#ff5c5c',
     red3: '#D60000',
     green1: darkMode ? '#27AE60' : '#007D35',
     yellow1: '#E3A507',
@@ -159,10 +159,10 @@ export const TYPE = {
     )
   },
   largeHeader(props) {
-    return <TextWrapper fontWeight={600} fontSize={24} {...props} />
+    return <TextWrapper fontWeight={600} fontSize={20} {...props} />
   },
   mediumHeader(props) {
-    return <TextWrapper fontWeight={500} fontSize={20} {...props} />
+    return <TextWrapper fontWeight={500} fontSize={18} {...props} />
   },
   subHeader(props) {
     return <TextWrapper fontWeight={400} fontSize={14} {...props} />

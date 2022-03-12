@@ -86,8 +86,8 @@ const Dashboard = ({ theme }) => {
   const handleDeployToken = async () => {
     showNotification({
       content: (
-        <center>
-          <h3>Waiting MetaMask confirmation</h3>
+        <center style={{ paddingTop: '15px' }}>
+          <TYPE.largeHeader>Waiting MetaMask confirmation</TYPE.largeHeader>
           <SimpleLoader />
         </center>
       ),
@@ -132,8 +132,10 @@ const Dashboard = ({ theme }) => {
 
         showNotification({
           content: (
-            <center>
-              <h3>Deploying contract to {selectedNetwork}</h3>
+            <center style={{ paddingTop: '15px' }}>
+              <TYPE.largeHeader>
+                Deploying contract to {selectedNetwork}
+              </TYPE.largeHeader>
               <SimpleLoader />
             </center>
           ),
@@ -157,8 +159,8 @@ const Dashboard = ({ theme }) => {
     } catch (err) {
       showNotification({
         content: (
-          <center>
-            <h3>An error occurred</h3>
+          <center style={{ paddingTop: '15px' }}>
+            <TYPE.largeHeader>An error occurred</TYPE.largeHeader>
             <p>{err?.message}</p>
           </center>
         ),

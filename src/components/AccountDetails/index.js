@@ -9,6 +9,7 @@ import { parseENSAddress } from 'utils/parseENSAddress'
 import { useAccountState } from 'store/account/state'
 import { useNetworkState } from 'store/network/state'
 import { getExplorerBaseUrl } from 'constants/explorer'
+import { parseBalance } from 'utils/balance'
 
 const Content = styled.div`
   width: 100%;
@@ -58,9 +59,10 @@ const InfoCard = styled.div`
 
 const AccountGroupingRow = styled.div`
   ${({ theme }) => theme.flexRowNoWrap};
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  align-items: flex-start;
   font-weight: 400;
+  flex-direction: column;
   color: ${({ theme }) => theme.text1};
 
   div {
@@ -128,7 +130,7 @@ const AddressLink = styled(ExternalLink)`
 `
 
 function AccountDetails() {
-  const { address } = useAccountState()
+  const { address, balance } = useAccountState()
   const { selectedNetwork } = useNetworkState()
 
   return (
@@ -142,9 +144,11 @@ function AccountDetails() {
         <AccountSection>
           <YourAccount>
             <InfoCard>
-              <AccountGroupingRow>Connected to MetaMask</AccountGroupingRow>
-              <AccountGroupingRow id="web3-account-identifier-row">
-                <AccountControl>{parseENSAddress(address)}</AccountControl>
+              <AccountGroupingRow>
+                Connected to MetaMask <b>{parseENSAddress(address)}</b>
+              </AccountGroupingRow>
+              <AccountGroupingRow>
+                Balance: <b>{parseBalance(balance)}</b>
               </AccountGroupingRow>
               <AccountGroupingRow>
                 <>

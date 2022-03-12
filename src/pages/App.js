@@ -18,6 +18,7 @@ import {
   CHAIN_ID,
   isDoricNetworkChainId,
 } from 'constants/provider'
+import { TYPE } from 'theme'
 
 const provider = getProvider()
 
@@ -91,6 +92,7 @@ function App() {
         updateBalance()
       })
     }
+    // eslint-disable-next-line
   }, [address, isLogged])
 
   const showNotification = ({ content }) => {
@@ -110,14 +112,14 @@ function App() {
   function noMetaMask() {
     showNotification({
       content: (
-        <center>
-          <h4>No MetaMask detected</h4>
+        <center style={{ paddingTop: '15px' }}>
+          <TYPE.largeHeader>No MetaMask detected</TYPE.largeHeader>
           <p>Please install MetaMask wallet</p>
           <h5>How to install MetaMask on your device?</h5>
           <a
             href="https://metamask.io/download.html"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             https://metamask.io/download.html
           </a>
@@ -136,8 +138,8 @@ function App() {
         if (!isDoricNetworkChainId(currentChainId)) {
           showNotification({
             content: (
-              <center>
-                <h4>Wrong network detected</h4>
+              <center style={{ paddingTop: '15px' }}>
+                <TYPE.largeHeader>Wrong network detected</TYPE.largeHeader>
                 <p>Please switch to the Doric network</p>
                 <SimpleLoader />
               </center>
@@ -166,8 +168,10 @@ function App() {
       } catch (error) {
         showNotification({
           content: (
-            <center>
-              <h4>Waiting MetaMask connection...</h4>
+            <center style={{ paddingTop: '15px' }}>
+              <TYPE.largeHeader>
+                Waiting MetaMask connection...
+              </TYPE.largeHeader>
               <SimpleLoader />
             </center>
           ),
