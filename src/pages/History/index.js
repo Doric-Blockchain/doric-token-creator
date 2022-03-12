@@ -30,15 +30,23 @@ const Table = styled.table`
   border-radius: 6px;
   width: 100%;
 
-  th {
+  th,
+  td {
     text-align: left;
+    padding: 5px;
   }
 
-  td > span {
+  td .badge-container {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 8px;
+  }
+
+  td .badge {
+    display: block;
     font-size: 11px;
     padding: 3px;
     background-color: ${({ theme }) => theme.bg4};
-    margin-right: 10px;
     border-radius: 6px;
     white-space: nowrap;
   }
@@ -165,10 +173,18 @@ const HistoryPage = () => {
                         </td>
                         <td>{totalSupply?.toUpperCase && totalSupply}</td>
                         <td>
-                          {<span>{t('DRC-20')}</span>}
-                          {mintable && <span>{t('Mintable')}</span>}
-                          {burnable && <span>{t('Burnable')}</span>}
-                          {pausable && <span>{t('Pausable')}</span>}
+                          <div className="badge-container">
+                            {<div className="badge">{t('DRC-20')}</div>}
+                            {mintable && (
+                              <div className="badge">{t('Mintable')}</div>
+                            )}
+                            {burnable && (
+                              <div className="badge">{t('Burnable')}</div>
+                            )}
+                            {pausable && (
+                              <div className="badge">{t('Pausable')}</div>
+                            )}
+                          </div>
                         </td>
                         <td>
                           <div
