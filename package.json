@@ -59,12 +59,6 @@
     "eject": "react-scripts eject",
     "compile:contracts": "cd src/truffle && truffle compile && cd ../.."
   },
-  "eslintConfig": {
-    "extends": "react-app",
-    "ignorePatterns": [
-      "node_modules"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",
