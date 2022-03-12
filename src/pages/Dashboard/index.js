@@ -97,36 +97,26 @@ const Dashboard = ({ theme }) => {
           Number(contractForm.totalSupply).toString(),
         )
 
-        addDeployedToken({
-          address: 'contract.address',
-          hash: 'contract.hash',
-          name: contractForm.name,
-          symbol: contractForm.symbol,
-          totalSupply: formattedSupply.toString(),
-          mintable: contractForm.mintable,
-          burnable: contractForm.burnable,
-          pausable: contractForm.pausable,
-          abi: contractData.abi,
-          bytecode: contractData.bytecode,
-        })
-
         const contract = await factory.deploy(
           contractForm.name,
           contractForm.symbol,
           formattedSupply,
         )
 
+        const mintableOrBurnable =
+          contractForm.mintable || contractForm.burnable
+
         addDeployedToken({
           address: contract.address,
-          hash: contract.hash,
           name: contractForm.name,
           symbol: contractForm.symbol,
-          totalSupply: formattedSupply,
-          mintable: contractForm.mintable,
+          totalSupply: ethers.utils.formatEther(formattedSupply).toString(),
+          mintable: mintableOrBurnable,
           burnable: contractForm.burnable,
           pausable: contractForm.pausable,
           abi: contractData.abi,
           bytecode: contractData.bytecode,
+          network: selectedNetwork,
         })
 
         showNotification({
@@ -144,11 +134,11 @@ const Dashboard = ({ theme }) => {
           content: (
             <TransactionDetails
               action="Contract deployed"
-              address={address}
-              addressAction={t('fromAddress', {
-                address: parseENSAddress(address),
-              })}
+              address={contract.address}
               hash={contract.deployTransaction.hash}
+              addressAction={t('interactedToAddress', {
+                address: parseENSAddress(contract.address),
+              })}
             />
           ),
         })
@@ -228,7 +218,7 @@ const Dashboard = ({ theme }) => {
               <SimpleInput
                 onChange={e => setFormField('totalSupply', e.target.value)}
                 value={contractForm.totalSupply}
-                type="text"
+                type="number"
                 placeholder={t(`Initial Supply`)}
                 margin="15px 0px"
               />
