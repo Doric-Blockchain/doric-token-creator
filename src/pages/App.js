@@ -15,7 +15,6 @@ import { LOADING_DETAILS } from 'store/application/types'
 import {
   getProvider,
   getMetaMaskParams,
-  CHAIN_ID,
   isDoricNetworkChainId,
 } from 'constants/provider'
 import { TYPE } from 'theme'
@@ -148,6 +147,7 @@ function App() {
         }
 
         const metamaskParams = getMetaMaskParams(selectedNetwork)
+        const { chainId: SELECTED_CHAIN_ID } = metamaskParams[0]
 
         await provider.send('eth_requestAccounts', [])
         await ethereum.request({
@@ -157,7 +157,7 @@ function App() {
 
         await ethereum.request({
           method: 'wallet_switchEthereumChain',
-          params: [{ chainId: CHAIN_ID }],
+          params: [{ chainId: SELECTED_CHAIN_ID }],
         })
 
         ethereum.on('accountsChanged', () => {

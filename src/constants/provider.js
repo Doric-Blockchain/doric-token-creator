@@ -7,7 +7,7 @@ export const getProvider = () => {
 }
 
 export const CHAIN_ID = '0x102D' // Hex of 4141
-export const CHAIN_ID_TESTNET = '0x102D' // Hex of 4141
+export const CHAIN_ID_TESTNET = '0xC3B' // Hex of 3131
 export const nativeCurrency = {
   name: 'Doric',
   symbol: 'DRC',
@@ -37,5 +37,10 @@ export const getMetaMaskParams = selectedNetwork => {
 }
 
 export const isDoricNetworkChainId = checkChainId => {
-  return checkChainId?.toUpperCase() === CHAIN_ID.toUpperCase()
+  const vChainId = checkChainId?.toUpperCase()
+
+  return (
+    vChainId === CHAIN_ID.toUpperCase() ||
+    vChainId === CHAIN_ID_TESTNET.toUpperCase()
+  )
 }
